@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Tests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #1a1a2e;
+            color: #eee;
+        }
+        .test-section {
+            background: #16213e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .test-result {
+            padding: 5px 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .pass { background: #276749; }
+        .fail { background: #c53030; }
+        h1 { color: #e94560; }
+        h2 { color: #4ecdc4; }
+    </style>
+</head>
+<body>
+    <h1>Scientific Calculator Pro - Test Suite</h1>
+    
+    <div class="test-section">
+        <h2>Basic Arithmetic</h2>
+        <div id="basic-tests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Scientific Functions</h2>
+        <div id="scientific-tests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Statistics</h2>
+        <div id="stats-tests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>Matrix Operations</h2>
+        <div id="matrix-tests"></div>
+    </div>
+    
+    <script src="js/bigint-decimal.js"></script>
+    <script src="js/expression-parser.js"></script>
+    <script src="js/calculator-core.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/vector.js"></script>
+    <script src="js/statistics.js"></script>
+    <script src="js/probability.js"></script>
+    <script src="js/calculus.js"></script>
+    <script src="js/solver.js"></script>
+    <script src="js/converter.js"></script>
+    <script src="js/financial.js"></script>
+    
+    <script>
+        const results = { pass: 0, fail: 0 };
+        
+        function runTest(name, actual, expected, tolerance = 1e-10) {
+            const passed = Math.abs(actual - expected) < tolerance;
+            results.pass += passed ? 1 : 0;
+            results.fail += passed ? 0 : 1;
+            
+            return `
+                <div class="test-result ${passed ? 'pass' : 'fail'}">
+                    <strong>${name}:</strong> 
+                    Expected: ${expected}, Got: ${actual} 
+                    ${passed ? '✓' : '✗'}
+                </div>
+            `;
+        }
+        
+        // Basic Arithmetic Tests
+        const parser = new ExpressionParser();
+        document.getElementById('basic-tests').innerHTML = `
+            ${runTest('2 + 2', parser.parse('2 + 2'), 4)}
+            ${runTest('10 - 3', parser.parse('10 - 3'), 7)}
+            ${runTest('6 × 7', parser.parse('6 * 7'), 42)}
+            ${runTest('100 ÷ 4', parser.parse('100 / 4'), 25)}
+            ${runTest('2 + 3 × 4', parser.parse('2 + 3 * 4'), 14)}
+            ${runTest('(2 + 3) × 4', parser.parse('(2 + 3) * 4'), 20)}
+            ${runTest('2^10', parser.parse('2 ^ 10'), 1024)}
+            ${runTest('√144', parser.parse('sqrt(144)'), 12)}
+            ${runTest('5!', parser.parse('5!'), 120)}
+        `;
+        
+        // Scientific Functions Tests
+        parser.setAngleMode('DEG');
+        document.getElementById('scientific-tests').innerHTML = `
+            ${runTest('sin(30°)', parser.parse('sin(30)'), 0.5, 0.0001)}
+            ${runTest('cos(60°)', parser.parse('cos(60)'), 0.5, 0.0001)}
+            ${runTest('tan(45°)', parser.parse('tan(45)'), 1, 0.0001)}
+            ${runTest('ln(e)', parser.parse('ln(2.718281828)'), 1, 0.0001)}
+            ${runTest('log₁₀(100)', parser.parse('log10(100)'), 2)}
+            ${runTest('abs(-5)', parser.parse('abs(-5)'), 5)}
+            ${runTest('sinh(0)', parser.parse('sinh(0)'), 0)}
+            ${runTest('cosh(0)', parser.parse('cosh(0)'), 1, 0.0001)}
+        `;
+        
+        // Statistics Tests
+        const stats = new Statistics();
+        stats.setData([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        document.getElementById('stats-tests').innerHTML = `
+            ${runTest('Mean of 1-10', stats.mean(), 5.5)}
+            ${runTest('Median of 1-10', stats.median(), 5.5)}
+            ${runTest('Sum of 1-10', stats.sum(), 55)}
+            ${runTest('Min of 1-10', stats.min(), 1)}
+            ${runTest('Max of 1-10', stats.max(), 10)}
+        `;
+        
+        // Matrix Tests
+        const A = new Matrix(2, 2, [[1, 2], [3, 4]]);
+        const B = new Matrix(2, 2, [[5, 6], [7, 8]]);
+        const detA = A.determinant();
+        const sum = A.add(B);
+        document.getElementById('matrix-tests').innerHTML = `
+            ${runTest('det([[1,2],[3,4]])', detA, -2)}
+            ${runTest('Matrix addition [0][0]', sum.get(0, 0), 6)}
+            ${runTest('Matrix addition [1][1]', sum.get(1, 1), 12)}
+        `;
+        
+        // Summary
+        setTimeout(() => {
+            const summary = document.createElement('div');
+            summary.className = 'test-section';
+            summary.innerHTML = `
+                <h2>Summary</h2>
+                <p style="font-size: 24px;">
+                    Passed: <span style="color: #4ecdc4;">${results.pass}</span> | 
+                    Failed: <span style="color: #e94560;">${results.fail}</span>
+                </p>
+            `;
+            document.body.appendChild(summary);
+        }, 100);
+    </script>
+</body>
+</html>

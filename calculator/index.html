@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scientific Calculator Pro</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="calculator-container">
+        <!-- Header with theme toggle and mode indicators -->
+        <header class="calc-header">
+            <div class="mode-indicators">
+                <span id="angle-mode" class="indicator" title="Angle Mode">DEG</span>
+                <span id="complex-mode" class="indicator inactive" title="Complex Mode">CMP</span>
+                <span id="sci-notation" class="indicator inactive" title="Scientific Notation">SCI</span>
+                <span id="memory-indicator" class="indicator inactive" title="Memory">M</span>
+            </div>
+            <button id="theme-toggle" class="theme-btn" aria-label="Toggle theme">🌙</button>
+        </header>
+
+        <!-- Display Section -->
+        <div class="display-section">
+            <div class="history-panel" id="history-panel">
+                <div class="history-header">
+                    <span>History</span>
+                    <button id="collapse-history" aria-label="Collapse history">▼</button>
+                </div>
+                <div class="history-list" id="history-list"></div>
+                <button id="clear-history" class="history-action">Clear History</button>
+            </div>
+            
+            <div class="main-display">
+                <div class="expression-display" id="expression" aria-live="polite"></div>
+                <div class="result-display" id="result" aria-live="polite">0</div>
+            </div>
+        </div>
+
+        <!-- Mode Selection Tabs -->
+        <div class="mode-tabs">
+            <button class="mode-tab active" data-mode="basic">Basic</button>
+            <button class="mode-tab" data-mode="scientific">Scientific</button>
+            <button class="mode-tab" data-mode="complex">Complex</button>
+            <button class="mode-tab" data-mode="matrix">Matrix</button>
+            <button class="mode-tab" data-mode="vector">Vector</button>
+            <button class="mode-tab" data-mode="stats">Statistics</button>
+            <button class="mode-tab" data-mode="probability">Probability</button>
+            <button class="mode-tab" data-mode="calculus">Calculus</button>
+            <button class="mode-tab" data-mode="solver">Solver</button>
+            <button class="mode-tab" data-mode="converter">Converter</button>
+            <button class="mode-tab" data-mode="financial">Financial</button>
+            <button class="mode-tab" data-mode="programmer">Programmer</button>
+        </div>
+
+        <!-- Calculator Modes Content -->
+        <div class="calculator-modes">
+            <!-- Basic/Scientific Mode -->
+            <div class="mode-content active" id="basic-scientific-mode">
+                <div class="function-row">
+                    <button class="btn func-btn" data-action="deg-rad-grad" title="Toggle Angle Mode (F1)">Deg</button>
+                    <button class="btn func-btn" data-action="sinh" title="Hyperbolic Sine">sinh</button>
+                    <button class="btn func-btn" data-action="cosh" title="Hyperbolic Cosine">cosh</button>
+                    <button class="btn func-btn" data-action="tanh" title="Hyperbolic Tangent">tanh</button>
+                    <button class="btn func-btn" data-action="log-base" title="Logarithm with Base">log□</button>
+                    <button class="btn func-btn" data-action="ln" title="Natural Logarithm (F2)">ln</button>
+                    <button class="btn func-btn" data-action="log10" title="Base-10 Logarithm (F3)">log₁₀</button>
+                    <button class="btn func-btn" data-action="e-power" title="e to the power of">eˣ</button>
+                </div>
+                
+                <div class="function-row">
+                    <button class="btn func-btn" data-action="sin" title="Sine (F4)">sin</button>
+                    <button class="btn func-btn" data-action="cos" title="Cosine (F5)">cos</button>
+                    <button class="btn func-btn" data-action="tan" title="Tangent (F6)">tan</button>
+                    <button class="btn func-btn" data-action="asin" title="Inverse Sine">sin⁻¹</button>
+                    <button class="btn func-btn" data-action="acos" title="Inverse Cosine">cos⁻¹</button>
+                    <button class="btn func-btn" data-action="atan" title="Inverse Tangent">tan⁻¹</button>
+                    <button class="btn func-btn" data-action="sqrt" title="Square Root (F7)">√</button>
+                    <button class="btn func-btn" data-action="cbrt" title="Cube Root">∛</button>
+                </div>
+                
+                <div class="function-row">
+                    <button class="btn func-btn" data-action="factorial" title="Factorial (F8)">x!</button>
+                    <button class="btn func-btn" data-action="square" title="Square (F9)">x²</button>
+                    <button class="btn func-btn" data-action="cube" title="Cube">x³</button>
+                    <button class="btn func-btn" data-action="power" title="Power (F10)">xʸ</button>
+                    <button class="btn func-btn" data-action="nth-root" title="Nth Root">ⁿ√</button>
+                    <button class="btn func-btn" data-action="abs" title="Absolute Value">|x|</button>
+                    <button class="btn func-btn" data-action="reciprocal" title="Reciprocal">1/x</button>
+                    <button class="btn func-btn" data-action="mod" title="Modulus">mod</button>
+                </div>
+
+                <div class="keypad">
+                    <button class="btn mem-btn" data-action="mc" title="Memory Clear">MC</button>
+                    <button class="btn mem-btn" data-action="mr" title="Memory Recall">MR</button>
+                    <button class="btn mem-btn" data-action="ms" title="Memory Store">MS</button>
+                    <button class="btn mem-btn" data-action="m-plus" title="Memory Add">M+</button>
+                    <button class="btn mem-btn" data-action="m-minus" title="Memory Subtract">M-</button>
+                    <button class="btn action-btn" data-action="clear-entry" title="Clear Entry (Escape)">CE</button>
+                    <button class="btn action-btn" data-action="clear-all" title="Clear All (Delete)">C</button>
+                    <button class="btn action-btn" data-action="backspace" title="Backspace (Backspace)">⌫</button>
+                    <button class="btn op-btn" data-value="÷" title="Divide (/)">÷</button>
+
+                    <button class="btn num-btn" data-value="7" title="7">7</button>
+                    <button class="btn num-btn" data-value="8" title="8">8</button>
+                    <button class="btn num-btn" data-value="9" title="9">9</button>
+                    <button class="btn op-btn" data-value="×" title="Multiply (*)">×</button>
+                    <button class="btn func-btn" data-action="percent" title="Percentage (%)">%</button>
+                    <button class="btn func-btn" data-action="negate" title="Negate">±</button>
+                    <button class="btn func-btn" data-action="pi" title="Pi (π)">π</button>
+                    <button class="btn op-btn" data-value="-" title="Subtract (-)">−</button>
+
+                    <button class="btn num-btn" data-value="4" title="4">4</button>
+                    <button class="btn num-btn" data-value="5" title="5">5</button>
+                    <button class="btn num-btn" data-value="6" title="6">6</button>
+                    <button class="btn op-btn" data-value="+" title="Add (+)">+</button>
+                    <button class="btn func-btn" data-action="e" title="Euler's Number">e</button>
+                    <button class="btn func-btn" data-action="phi" title="Golden Ratio">φ</button>
+                    <button class="btn func-btn" data-action="ans" title="Last Answer">ANS</button>
+                    <button class="btn op-btn" data-value="/" title="Divide">/</button>
+
+                    <button class="btn num-btn" data-value="1" title="1">1</button>
+                    <button class="btn num-btn" data-value="2" title="2">2</button>
+                    <button class="btn num-btn" data-value="3" title="3">3</button>
+                    <button class="btn func-btn" data-action="exp" title="Scientific Notation">EXP</button>
+                    <button class="btn func-btn" data-action="rand" title="Random Number">RAND</button>
+                    <button class="btn func-btn" data-action="constant" title="Constants">CONST</button>
+                    <button class="btn func-btn" data-action="frac" title="Fraction Mode">a/b</button>
+                    <button class="btn equals-btn" data-action="equals" title="Equals (= or Enter)">=</button>
+
+                    <button class="btn num-btn" data-value="0" title="0">0</button>
+                    <button class="btn num-btn" data-value="00" title="00">00</button>
+                    <button class="btn num-btn" data-value="." title="Decimal Point">.</button>
+                    <button class="btn func-btn" data-action="paren-open" title="Open Parenthesis">(</button>
+                    <button class="btn func-btn" data-action="paren-close" title="Close Parenthesis">)</button>
+                    <button class="btn func-btn" data-action="comma" title="Comma/Separator">,</button>
+                    <button class="btn func-btn" data-action="store-var" title="Store Variable">STO</button>
+                    <button class="btn func-btn" data-action="recall-var" title="Recall Variable">RCL</button>
+                </div>
+            </div>
+
+            <!-- Complex Mode -->
+            <div class="mode-content" id="complex-mode-content">
+                <div class="function-row">
+                    <button class="btn func-btn" data-action="complex-toggle" title="Toggle Complex Input">a+bi</button>
+                    <button class="btn func-btn" data-action="complex-conj" title="Complex Conjugate">conj</button>
+                    <button class="btn func-btn" data-action="complex-mag" title="Magnitude">|z|</button>
+                    <button class="btn func-btn" data-action="complex-phase" title="Phase/Angle">arg(z)</button>
+                    <button class="btn func-btn" data-action="complex-rect" title="To Rectangular">Rect</button>
+                    <button class="btn func-btn" data-action="complex-polar" title="To Polar">Polar</button>
+                    <button class="btn func-btn" data-value="i" title="Imaginary Unit">i</button>
+                </div>
+                <div class="complex-input" id="complex-input-container" style="display:none;">
+                    <label>Real: <input type="text" id="complex-real" placeholder="0"></label>
+                    <label>Imag: <input type="text" id="complex-imag" placeholder="0"></label>
+                    <button class="btn" id="complex-insert">Insert</button>
+                </div>
+            </div>
+
+            <!-- Matrix Mode -->
+            <div class="mode-content" id="matrix-mode-content">
+                <div class="matrix-controls">
+                    <label>Matrix A Size: 
+                        <select id="matrix-a-rows">
+                            <option value="2">2</option><option value="3">3</option>
+                            <option value="4">4</option><option value="5">5</option>
+                        </select> × 
+                        <select id="matrix-a-cols">
+                            <option value="2">2</option><option value="3">3</option>
+                            <option value="4">4</option><option value="5">5</option>
+                        </select>
+                    </label>
+                    <button class="btn" id="create-matrix-a">Create Matrix A</button>
+                    <button class="btn" id="create-matrix-b">Create Matrix B</button>
+                </div>
+                <div class="matrix-editors" id="matrix-editors"></div>
+                <div class="matrix-operations">
+                    <button class="btn func-btn" data-action="matrix-add">A+B</button>
+                    <button class="btn func-btn" data-action="matrix-sub">A-B</button>
+                    <button class="btn func-btn" data-action="matrix-mul">A×B</button>
+                    <button class="btn func-btn" data-action="matrix-det">det(A)</button>
+                    <button class="btn func-btn" data-action="matrix-inv">A⁻¹</button>
+                    <button class="btn func-btn" data-action="matrix-trans">Aᵀ</button>
+                    <button class="btn func-btn" data-action="matrix-rank">rank(A)</button>
+                    <button class="btn func-btn" data-action="matrix-eigen">eig(A)</button>
+                </div>
+            </div>
+
+            <!-- Vector Mode -->
+            <div class="mode-content" id="vector-mode-content">
+                <div class="vector-inputs">
+                    <div class="vector-group">
+                        <h4>Vector A</h4>
+                        <input type="text" id="vec-a-x" placeholder="x" value="0">
+                        <input type="text" id="vec-a-y" placeholder="y" value="0">
+                        <input type="text" id="vec-a-z" placeholder="z" value="0">
+                    </div>
+                    <div class="vector-group">
+                        <h4>Vector B</h4>
+                        <input type="text" id="vec-b-x" placeholder="x" value="0">
+                        <input type="text" id="vec-b-y" placeholder="y" value="0">
+                        <input type="text" id="vec-b-z" placeholder="z" value="0">
+                    </div>
+                </div>
+                <div class="vector-operations">
+                    <button class="btn func-btn" data-action="vec-dot">Dot Product</button>
+                    <button class="btn func-btn" data-action="vec-cross">Cross Product</button>
+                    <button class="btn func-btn" data-action="vec-mag-a">|A|</button>
+                    <button class="btn func-btn" data-action="vec-mag-b">|B|</button>
+                    <button class="btn func-btn" data-action="vec-unit-a">Â</button>
+                    <button class="btn func-btn" data-action="vec-unit-b">B̂</button>
+                    <button class="btn func-btn" data-action="vec-angle">Angle</button>
+                    <button class="btn func-btn" data-action="vec-proj">proj_A(B)</button>
+                </div>
+            </div>
+
+            <!-- Statistics Mode -->
+            <div class="mode-content" id="stats-mode-content">
+                <div class="stats-input">
+                    <textarea id="stats-data" placeholder="Enter data values separated by commas or newlines"></textarea>
+                    <button class="btn" id="stats-calculate">Calculate Statistics</button>
+                </div>
+                <div class="stats-results" id="stats-results"></div>
+            </div>
+
+            <!-- Probability Mode -->
+            <div class="mode-content" id="probability-mode-content">
+                <div class="prob-calculator">
+                    <label>nPr: <input type="number" id="npr-n" placeholder="n"> <input type="number" id="npr-r" placeholder="r"> <button class="btn" data-action="npr">Calculate</button></label>
+                    <label>nCr: <input type="number" id="ncr-n" placeholder="n"> <input type="number" id="ncr-r" placeholder="r"> <button class="btn" data-action="ncr">Calculate</button></label>
+                    <label>Binomial: n=<input type="number" id="binom-n"> p=<input type="number" id="binom-p"> k=<input type="number" id="binom-k"> <button class="btn" data-action="binomial">P(X=k)</button></label>
+                    <label>Normal: μ=<input type="number" id="norm-mu" value="0"> σ=<input type="number" id="norm-sigma" value="1"> x=<input type="number" id="norm-x"> <button class="btn" data-action="normal">P(X≤x)</button></label>
+                </div>
+            </div>
+
+            <!-- Calculus Mode -->
+            <div class="mode-content" id="calculus-mode-content">
+                <div class="calculus-input">
+                    <label>Function f(x): <input type="text" id="calc-function" placeholder="e.g., x^2 + 3*x"></label>
+                    <label>Point/FROM: <input type="number" id="calc-point" value="0"></label>
+                    <label>TO (for integration): <input type="number" id="calc-to" value="1"></label>
+                    <label>Step size h: <input type="number" id="calc-h" value="0.0001"></label>
+                </div>
+                <div class="calculus-operations">
+                    <button class="btn func-btn" data-action="deriv">Derivative f'(x)</button>
+                    <button class="btn func-btn" data-action="integral">Integral ∫f(x)dx</button>
+                    <button class="btn func-btn" data-action="tangent">Tangent Line</button>
+                    <button class="btn func-btn" data-action="newton">Newton-Raphson Root</button>
+                    <button class="btn func-btn" data-action="secant">Secant Method Root</button>
+                </div>
+                <div class="calculus-result" id="calculus-result"></div>
+            </div>
+
+            <!-- Equation Solver Mode -->
+            <div class="mode-content" id="solver-mode-content">
+                <div class="solver-types">
+                    <button class="btn solver-type active" data-solver="linear">Linear (ax+b=0)</button>
+                    <button class="btn solver-type" data-solver="quadratic">Quadratic (ax²+bx+c=0)</button>
+                    <button class="btn solver-type" data-solver="cubic">Cubic (ax³+bx²+cx+d=0)</button>
+                    <button class="btn solver-type" data-solver="system">System (2 equations)</button>
+                </div>
+                <div class="solver-inputs" id="solver-inputs"></div>
+                <button class="btn" id="solve-equation">Solve</button>
+                <div class="solver-result" id="solver-result"></div>
+            </div>
+
+            <!-- Unit Converter Mode -->
+            <div class="mode-content" id="converter-mode-content">
+                <div class="converter-ui">
+                    <select id="conv-category">
+                        <option value="length">Length</option>
+                        <option value="area">Area</option>
+                        <option value="volume">Volume</option>
+                        <option value="mass">Mass</option>
+                        <option value="temperature">Temperature</option>
+                        <option value="pressure">Pressure</option>
+                        <option value="energy">Energy</option>
+                        <option value="power">Power</option>
+                        <option value="time">Time</option>
+                        <option value="speed">Speed</option>
+                    </select>
+                    <input type="number" id="conv-value" placeholder="Value" value="1">
+                    <select id="conv-from"></select>
+                    <span>→</span>
+                    <select id="conv-to"></select>
+                    <button class="btn" id="convert-btn">Convert</button>
+                    <div class="converter-result" id="converter-result"></div>
+                </div>
+            </div>
+
+            <!-- Financial Mode -->
+            <div class="mode-content" id="financial-mode-content">
+                <div class="financial-calculator">
+                    <label>Compound Interest: P=<input type="number" id="ci-p"> r=%<input type="number" id="ci-r"> t=<input type="number" id="ci-t"> n=<input type="number" id="ci-n" value="12"> <button class="btn" data-action="compound-interest">Calculate</button></label>
+                    <label>Loan EMI: P=<input type="number" id="emi-p"> r=%<input type="number" id="emi-r"> t=<input type="number" id="emi-t"> <button class="btn" data-action="loan-emi">Calculate</button></label>
+                    <label>Future Value: PV=<input type="number" id="fv-pv"> r=%<input type="number" id="fv-r"> t=<input type="number" id="fv-t"> <button class="btn" data-action="future-value">Calculate</button></label>
+                    <label>CAGR: Start=<input type="number" id="cagr-start"> End=<input type="number" id="cagr-end"> t=<input type="number" id="cagr-t"> <button class="btn" data-action="cagr">Calculate</button></label>
+                </div>
+            </div>
+
+            <!-- Programmer Mode -->
+            <div class="mode-content" id="programmer-mode-content">
+                <div class="base-display">
+                    <div class="base-value"><label>HEX:</label><span id="hex-display">0</span></div>
+                    <div class="base-value"><label>DEC:</label><span id="dec-display">0</span></div>
+                    <div class="base-value"><label>OCT:</label><span id="oct-display">0</span></div>
+                    <div class="base-value"><label>BIN:</label><span id="bin-display">0</span></div>
+                </div>
+                <div class="bitwise-operations">
+                    <button class="btn func-btn" data-action="and">AND</button>
+                    <button class="btn func-btn" data-action="or">OR</button>
+                    <button class="btn func-btn" data-action="xor">XOR</button>
+                    <button class="btn func-btn" data-action="not">NOT</button>
+                    <button class="btn func-btn" data-action="lshift">←</button>
+                    <button class="btn func-btn" data-action="rshift">→</button>
+                    <button class="btn func-btn" data-base="16">HEX</button>
+                    <button class="btn func-btn" data-base="10">DEC</button>
+                    <button class="btn func-btn" data-base="8">OCT</button>
+                    <button class="btn func-btn" data-base="2">BIN</button>
+                </div>
+                <div class="ieee754-viewer">
+                    <label>IEEE-754 Decoder: <input type="number" id="ieee-input" step="any"></label>
+                    <button class="btn" id="ieee-decode">Decode</button>
+                    <div id="ieee-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphing Panel (Collapsible) -->
+        <div class="graphing-panel" id="graphing-panel">
+            <div class="graph-header">
+                <span>Graph</span>
+                <button id="toggle-graph">▲</button>
+            </div>
+            <canvas id="graph-canvas"></canvas>
+            <div class="graph-controls">
+                <input type="text" id="graph-function" placeholder="f(x) = e.g., sin(x), x^2">
+                <button class="btn" id="graph-plot">Plot</button>
+                <button class="btn" id="graph-clear">Clear</button>
+                <button class="btn" id="graph-zoom-in">Zoom +</button>
+                <button class="btn" id="graph-zoom-out">Zoom -</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settings-modal">
+        <div class="modal-content">
+            <h3>Settings</h3>
+            <label>Precision: <input type="range" id="precision-slider" min="10" max="100" value="50"><span id="precision-value">50</span> digits</label>
+            <label>Font Size: <input type="range" id="font-size-slider" min="12" max="24" value="16"><span id="font-size-value">16</span>px</label>
+            <label><input type="checkbox" id="high-contrast"> High Contrast Mode</label>
+            <button class="btn" id="export-history">Export History (JSON)</button>
+            <button class="btn" id="close-settings">Close</button>
+        </div>
+    </div>
+
+    <script src="js/bigint-decimal.js"></script>
+    <script src="js/expression-parser.js"></script>
+    <script src="js/calculator-core.js"></script>
+    <script src="js/matrix.js"></script>
+    <script src="js/vector.js"></script>
+    <script src="js/statistics.js"></script>
+    <script src="js/probability.js"></script>
+    <script src="js/calculus.js"></script>
+    <script src="js/solver.js"></script>
+    <script src="js/converter.js"></script>
+    <script src="js/financial.js"></script>
+    <script src="js/graphing.js"></script>
+    <script src="js/ui-controller.js"></script>
+    <script src="js/keyboard-handler.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
