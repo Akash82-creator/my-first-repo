@@ -1,0 +1,11 @@
+<!-- PLANNED: not executed. Edit HostFolder to your build output. -->
+<Configuration>
+  <MappedFolders>
+    <MappedFolder>
+      <HostFolder>C:\sweep\target\release</HostFolder>
+      <SandboxFolder>C:\sweep</SandboxFolder>
+      <ReadOnly>true</ReadOnly>
+    </MappedFolder>
+  </MappedFolders>
+  <Networking>Enable</Networking>
+</Configuration>

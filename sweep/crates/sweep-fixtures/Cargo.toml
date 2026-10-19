@@ -1,0 +1,14 @@
+[package]
+name = "sweep-fixtures"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Controlled test installer/uninstaller with known artifacts. Test-only; never shipped."
+publish = false
+
+[[bin]]
+name = "sweep-fixture"
+path = "src/main.rs"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"

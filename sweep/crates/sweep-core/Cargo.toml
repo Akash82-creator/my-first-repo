@@ -1,0 +1,17 @@
+[package]
+name = "sweep-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[features]
+# In-memory fakes of the OS traits. Used by tests here and by the app's dev mode.
+fakes = []
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+proptest = "1"

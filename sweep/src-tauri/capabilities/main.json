@@ -1,0 +1,19 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "main",
+  "description": "Only Sweep's own read-only/launch commands and event listening. No shell, fs, opener or other plugins.",
+  "windows": ["main"],
+  "permissions": [
+    "core:event:allow-listen",
+    "core:event:allow-unlisten",
+    "allow-env-status",
+    "allow-list-programs",
+    "allow-preview-uninstall",
+    "allow-start-uninstall",
+    "allow-stop-waiting",
+    "allow-get-operation",
+    "allow-start-scan",
+    "allow-cancel-scan",
+    "allow-get-scan"
+  ]
+}

@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-env-status"
+description = "Enables the env_status command without any pre-configured scope."
+commands.allow = ["env_status"]
+
+[[permission]]
+identifier = "deny-env-status"
+description = "Denies the env_status command without any pre-configured scope."
+commands.deny = ["env_status"]
