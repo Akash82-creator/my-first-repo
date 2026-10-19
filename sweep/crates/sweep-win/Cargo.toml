@@ -1,0 +1,25 @@
+[package]
+name = "sweep-win"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Windows backends for Sweep (read-only in Stage A, plus launching vendor uninstallers)."
+
+[dependencies]
+sweep-core = { path = "../sweep-core" }
+serde.workspace = true
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"
+windows = { version = "0.58", features = [
+  "Win32_Foundation",
+  "Win32_Security",
+  "Win32_System_Threading",
+  "Win32_System_Diagnostics_ToolHelp",
+  "Win32_System_LibraryLoader",
+  "Win32_System_ApplicationInstallationAndServicing",
+  "Win32_System_Com",
+  "Win32_System_Registry",
+  "Win32_UI_Shell",
+  "Win32_UI_WindowsAndMessaging",
+] }

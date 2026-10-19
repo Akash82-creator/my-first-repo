@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-stop-waiting"
+description = "Enables the stop_waiting command without any pre-configured scope."
+commands.allow = ["stop_waiting"]
+
+[[permission]]
+identifier = "deny-stop-waiting"
+description = "Denies the stop_waiting command without any pre-configured scope."
+commands.deny = ["stop_waiting"]

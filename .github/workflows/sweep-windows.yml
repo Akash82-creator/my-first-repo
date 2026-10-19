@@ -1,0 +1,60 @@
+# Routine CI for Sweep Stage A (project lives in sweep/). Fixture-based and
+# per-user only: no UAC prompt, nothing outside the runner's profile touched.
+name: sweep-windows
+
+on:
+  push:
+    paths: ['sweep/**', '.github/workflows/sweep-windows.yml']
+  pull_request:
+    paths: ['sweep/**', '.github/workflows/sweep-windows.yml']
+
+defaults:
+  run:
+    working-directory: sweep
+
+jobs:
+  linux-core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - run: cargo test -p sweep-core
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Core unit + acceptance tests (Windows host)
+        run: cargo test -p sweep-core
+      - name: Build fixtures
+        run: cargo build -p sweep-fixtures
+      - name: Stage A Windows integration tests
+        shell: pwsh
+        run: |
+          $env:SWEEP_FIXTURE = "$PWD\target\debug\sweep-fixture.exe"
+          cargo test -p sweep-win --test stage_a_windows -- --ignored --test-threads=1 2>&1 | Tee-Object -FilePath stage-a-windows.log
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: UI build + smoke tests (mocked backend)
+        working-directory: sweep/ui
+        run: |
+          npm ci
+          npm run build
+          npx playwright install chromium
+          npx playwright test
+      - name: Build installer
+        shell: pwsh
+        working-directory: sweep/src-tauri
+        run: |
+          npm install --global @tauri-apps/cli@2
+          tauri build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sweep-stage-a
+          path: |
+            sweep/stage-a-windows.log
+            sweep/target/release/bundle/nsis/*.exe

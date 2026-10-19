@@ -1,0 +1,11 @@
+# Automatically generated - DO NOT EDIT!
+
+[[permission]]
+identifier = "allow-preview-uninstall"
+description = "Enables the preview_uninstall command without any pre-configured scope."
+commands.allow = ["preview_uninstall"]
+
+[[permission]]
+identifier = "deny-preview-uninstall"
+description = "Denies the preview_uninstall command without any pre-configured scope."
+commands.deny = ["preview_uninstall"]

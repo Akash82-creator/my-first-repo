@@ -1,0 +1,18 @@
+[package]
+name = "sweep"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Sweep: evidence-based Windows uninstaller (Stage A: read-only leftover review)"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde.workspace = true
+serde_json.workspace = true
+sweep-core = { path = "../crates/sweep-core" }
+
+[target.'cfg(windows)'.dependencies]
+sweep-win = { path = "../crates/sweep-win" }
